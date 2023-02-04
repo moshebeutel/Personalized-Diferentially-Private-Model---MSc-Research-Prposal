@@ -1,0 +1,180 @@
+\begin{refsection} %% This is needed to create a separate references section for this chapter.
+\begingroup
+% increase max. interqword space so we don't get so many overfull hboxes due to unhyphenatable verbatim
+\spaceskip 3.33pt plus 6pt minus 1.11pt
+\chapter{Introduction}
+\label{sec: introduction}
+
+%% The following annotation is customary for chapter which have already been
+%% published as a paper.
+\blfootnote{Parts of this chapter have been published in Annalen der Physik \textbf{324}, 289 (1906) \cite{Einstein1906}.}
+
+%% It is only necessary to list the authors if multiple people contributed
+%% significantly to the chapter.
+\authors{Albert {\titleshape Einstein}}
+
+%% The '0pt' option ensures that no extra vertical space follows this epigraph,
+%% since there is another epigraph after it.
+\epigraph[0pt]{
+    Nature and nature's laws lay hid in the night; \\
+    God said `Let Newton be!' and all was light.
+}{Alexander Pope}
+
+\epigraph{
+    It did not last: the devil shouting `Ho. \\
+    Let Einstein be!' restore the status quo.
+}{Sir John Collings Squire}
+
+\begin{abstract}
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+\end{abstract}
+
+%% Start the actual chapter on a new page.
+\newpage
+
+This document is intended to be both an example of the TU Delft dissertation template for \LaTeX, as well as a short introduction to its use. It is not intended to be a general introduction to \LaTeX{} itself,\footnote{We recommend \url{http://en.wikibooks.org/wiki/LaTeX} as a reference and a starting point for new users.} and we will assume the reader to be familiar with the basics of creating and compiling documents.
+
+Instructions on how to use this template under Windows and Linux, and which \LaTeX{} packages are required, can be found in \texttt{README.txt}.
+
+\section{Document Structure}
+\dropcap S{ince} a dissertation is a substantial document, it is convenient to break it up into smaller pieces. In this template we therefore give every chapter its own file. The chapters (and appendices) are gathered together in \texttt{dissertation.tex}, which is the master file describing the overall structure of the document.
+
+\mbox{\texttt{dissertation.tex}} starts with the line
+
+%% We need an empty line before the quote environment to work around a bug in
+%% the lettrine package, from which the drop command is derived.
+\begin{quote}
+\verb|\documentclass{_style/dissertation}|
+\end{quote}
+which loads the dissertation template. The template is based on the \LaTeX{} \texttt{book} document class and stored in \texttt{dissertation.cls}. The document class accepts several comma-separated options. By default, hyperlinks are shown in cyan, which is convenient when reading the dissertation on a computer, but can be expensive when printing. They can be turned black with the \texttt{print} option. This will also turn the headers dark gray instead of cyan. Moreover, it will add a 3~mm bleed around the page including crop marks. This will help the printer with the thumb indices, since they run right up to the page borders. Finally, the \texttt{fourier} option can be used to override the automatic font selection (see below).
+
+A dissertation is a big document, which makes it easy to miss warnings about the layout in the \LaTeX{} output. In order to locate problem areas, add the \texttt{draft} option to the \verb|\documentclass| line. This will display a vertical bar in the margins next to the paragraphs that require attention.
+
+The contents of the dissertation are included between the \verb|\begin|\allowbreak\verb|{document}| and \verb|\end{document}| commands, and split into three parts by
+\begin{enumerate}
+\item\verb|\frontmatter|, which uses Roman numerals for the page numbers and is used for the title page and the table of contents;
+\item\verb|\mainmatter|, which uses Arabic numerals for the page numbers and is the style for the chapters;
+\item\verb|\appendix|, which uses letters for the chapter numbers, starting with `A'.
+\end{enumerate}
+The title page is defined in \texttt{title.tex} in the \texttt{title} folder and included verbatim with \verb|\include{title/title}|,\footnote{Note that it is not necessary to specify the file extension.} (see below). Additionally, it is possible to include a preface, containing, for example, the acknowledgements. An example can be found in \texttt{preface.tex}. The table of contents is generated automatically with the \verb|\tableofcontents| command. Chapters are included after \verb|\mainmatter| and appendices after \verb|\appendix|. For example, \verb|\include{|\allowbreak\verb|introduction/|\allowbreak\verb|introduction}| includes \verb|introduction/introduction.tex|, which contains this introduction.
+
+\section{Title Page}
+
+\dropcap T{he} title pages are defined in \texttt{title/title.tex}, which you will have to modify according to your needs. Note that these pages are subject to the requirements of the \emph{promotieregelement} and cannot be changed at will. The title page may be written in the English or Dutch language
+preferably in the same language as the dissertation.
+Apart from the names and dates, most of the text is dictated literally.
+
+Since the thesis title and name of the author appear several times throughout the document (on the title page, but also in, \emph{e.g.}, the preface and cv), special commands are provided so they only have to be specified once. The title (and optional subtitle) can be specified with
+
+\begin{quote}
+\verb|\title[Optional subtitle]{Title}|
+\end{quote}
+The name of the author is specified with
+\begin{quote}
+\verb|\author{First name}{Last name}|
+\end{quote}
+Note that the first and last name are separate arguments, since they may be printed in different font shapes. The \verb|\title| and \verb|\author| commands also ensure that the title and author appear in the metadata of the final PDF.
+
+See \texttt{title/title.tex} for detailed documentation on the comment and layout of the title pages. Logos of institutes that have contributed financially to the dissertation may be included on reverse side of the title page. A few example logos can be found in the \verb|_logos| folder.
+
+\section{Chapters}
+
+\dropcap E{ach} chapter has its own file. For example, the \LaTeX{} source of this chapter can be found in \texttt{introduction/introduc\-tion\allowbreak.tex}. A chapter starts with the command
+
+\begin{quote}
+\verb|\chapter{Chapter title}|
+\end{quote}
+This starts a new page, prints the chapter number and title and adds a link in the table of contents. If the title is very long, it may be desirable to use a shorter version in the page headers and the table of contents. This can be achieved by specifying the short title in brackets:
+
+\begin{quote}
+\verb|\chapter[Short title]{Very| \verb|long| \verb|title| \verb|with| \verb|many| \verb|words| \verb|which| \verb|could| \verb|not| \verb|possibly| \verb|fit| \verb|on| \verb|one| \verb|line}|
+\end{quote}
+The command \verb|\frontmatter| sets page numbering to lower case Roman, and removes the chapter numbering. \verb|\mainmatter| sets both numberings to Arabic (`normal') numbers. \verb|\appendix| sets the chapter numbering to upper case Latin letters. \verb|\backmatter| removes the chapter numbering again.
+
+If (parts of) the chapter have already been published elsewhere, it is customary to add a reference. This can be done with the special unnumbered footnote command \verb|\blfootnote|. For example,
+
+\begin{quote}
+\verb|\blfootnote{Parts| \verb|of| \verb|this| \verb|chapter| \verb|have| \verb|been| \verb|published| \verb|in| \verb|Annalen| \verb|der| \verb|Physik| \verb|\textbf{324},| \verb|289| \verb|(1906)|\\\verb|\cite{Einstein1906}.}|
+\end{quote}
+generates the footnote at the beginning of this chapter. Because this footnote is unnumbered, the \texttt{hyperref} package may throw a warning, which safely be ignored.
+
+If multiple people have contributed significantly to this chapter, they can be lister with the \verb|\authors| command. This can be followed by a quotation using \verb|\epigraph| as shown above. Finally, it is customary for a dissertation to include an abstract for every chapter (except perhaps the introduction). This can be accomplished with the \texttt{abstract} environment. The abstract should be followed by \verb|\newpage| to start the chapter text on a new page.
+
+In a dissertation, each chapter has its own list of references. These can be generated with the special command \verb|\references|\allowbreak\verb|{dissertation}| from \texttt{disser\-tation.bib} at the end of the chapter. Note that this means that you need to run a command like \texttt{biber chapter-1/\allowbreak chapter-1} for each chapter. The template will automatically generate clickable hyperlinks if a URL or DOI (digital object identifier) is present for the reference. Although it is possible to manage the bibliography by hand, we  recommend using Zotero\footnote{Open source, desktop and online version available from \url{https://www.zotero.org}}, Mendeley\footnote{Desktop and online version available from \url{https://www.mendeley.com/}}, EndNote, or JabRef\footnote{Open source, specialised \texttt{*.bib} file editor; desktop only, available from \url{http://jabref.sourceforge.net/}}.
+
+Chapters are subdivided into sections, subsections, subsubsections, and, optionally, paragraphs and subparagraphs. All can have a title, but only sections and subsections are numbered. As with chapters, the numbering can be turned off by using \verb|\addsec{...}| instead of \verb|\section{...}|, and similarly for the subsection.
+\section{\textbackslash section\{\ldots\}}
+\subsection{\textbackslash subsection\{\ldots\}}
+\subsubsection{\textbackslash subsubsection\{\ldots\}}
+\paragraph{\textbackslash paragraph\{\ldots\}}
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+\subparagraph{\textbackslash subparagraph\{\ldots\}}
+Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+\section{Fonts and Colors}
+
+\dropcap T{he} fonts used by this template can be chosen via a documentclass option. If you leave the option (as given in the template) \verb|\documentclass|\allowbreak\verb|[fourier]|\allowbreak\verb|{_style/dissertation}|, Latex will use Utopia for titles and the main text, Fourier for math, and Latin Modern for sans-serif and monospaced text.
+If, on the other hand, you remove this option and use \verb|\documentclass|\allowbreak\verb|{_style/|\allowbreak\verb|dissertation}|,  you will get Roboto Slab for titles, Roboto (if you use PdfLatex) or Arial (if you use XeLatex or LuaLatex) for the main text, Courier New for monospace and Arev\footnote{A version of Bitstream Vera Sans with \LaTeX\ math support}for math.
+This is in line with the current Corporate style of the TU Delft.
+
+This template supports the use of drop caps, a large colored initial at the beginning of a chapter or section, via the \verb|\dropcap| command:
+
+\begin{quote}
+\verb|\dropcap{L}{orem} ipsum...|
+\end{quote}
+The first argument is the capital that will be printed on two lines (in the title color), and the second argument is the rest of the word. Depending on the font, the latter may be printed in small caps.
+
+The corporate colors of the TU Delft are cyan, black and white, available, respectively, via \verb|\textcolor{|\textcolor{tud primary}{\texttt{tud primary}}\verb|}{...}|, \verb|\textcolor|\allowbreak\texttt{\{\textcolor{black}{black}\}\{...\}} and \verb|\textcolor{|\allowbreak\texttt{white}\verb|}{...}|.
+Apart from these three, the house style defines the following basic colors, that can be used via \verb|\textcolor{tud |\textit{colorname}\verb|}{...}|:
+\begin{itemize}
+  \itemsep 0pt
+  \parskip 0pt
+  \item \textcolor{tud navy}{\textbf{navy}}
+  \item \textcolor{tud topaz}{\textbf{topaz}}
+  \item \textcolor{tud blue}{\textbf{blue}}
+  \item \textcolor{tud purple}{\textbf{purple}}
+  \item \textcolor{tud pink}{\textbf{pink}}
+  \item \textcolor{tud shiraz}{\textbf{shiraz}}
+  \item \textcolor{tud grapefruit}{\textbf{grapefruit}}
+  \item \textcolor{tud orange}{\textbf{orange}}
+  \item \textcolor{tud yellow}{\textbf{yellow}}
+  \item \textcolor{tud green}{\textbf{green}}
+  \item \textcolor{tud teal}{\textbf{teal}}
+\end{itemize}
+
+ISO~\num{80000} \cite{ISO80000} defines that in mathematical typesetting, only variables should be italised. This means that constants (numbers, units, functions such as \(\mathrm J_0, \sin\) etc.) and other text should be upright.
+A more accessible source for these typesetting rules is the SI brochure \cite[\S 2.3.1]{SIbrochure}. A few examples of correctly typeset math are shown below. The packages \texttt{siunitx} and \texttt{amsmath} (here loaded via \texttt{mathtools}) makes typesetting math correctly significantly easier.
+
+The rotational speed of the earth around the sun is approximately \(\varOmega_\text{earth} = 2 \uppi\,\si{rad.year^{-1}} \approx \SI{0.1991}{\micro\radian\per\second}\).\footnote{In \TeX, math mode is \emph{toggeled} using \texttt{\$...\$}, which is still what many people use. In \LaTeX, we can do this too, but we can also use a clear beginning and end of math mode, as \texttt{\textbackslash(...\textbackslash)}, which will make your code and possible error messages easier to understand.}
+
+The unnormalised sinc function is defined as follows:
+% in preamble: \DeclareMathOperator{\sinc}{sinc}
+\begin{equation}
+  \sinc x = \begin{cases}
+    0 & \text{where \(x = 0\)}\\
+    1 / \sin x & \text{else}
+  \end{cases}
+\end{equation}
+
+The following equation, commonly known as Euler's identity, consists of constants numbers only, and hence all symbols should be set upright:
+\begin{equation}
+  \mathrm e^{\mathrm i \uppi} + 1 = 0
+\end{equation}
+
+Here's a nice equation used as a demo by the \LaTeX\ font catalogue\footnote{\url{https://tug.org/FontCatalogue/}}
+\begin{equation}
+  \mathbfsf{B}(P)=\frac{\mu_0}{4\pi}\int\frac{\mathbfsf I \times \hat r ' }{r'^2} \mathrm dl
+    = \frac{\mu_0}{4\uppi}I\int\frac{\mathrm d\mathbfsf{l}\times\hat r'}{r'^2}
+\end{equation}
+
+\makeatletter
+\if@fourier
+  \input{fourier/fourierdemo}
+\else
+  \input{roboto/robotodemo}
+\fi
+\makeatother
+
+% \printreferences
+\endgroup
+\end{refsection}

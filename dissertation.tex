@@ -1,0 +1,62 @@
+\documentclass[fourier]{_style/dissertation}
+
+% \includeonly{introduction/introduction}
+% words which latex does not know how to hyphenate can be listed here:
+\hyphenation{ge-for-der-te sus-pen-dier-ten}
+
+\addbibresource[glob]{*.bib}
+
+%% Specify the title and author of the thesis. This information will be used on
+%% the title page (in title/title.tex) and in the metadata of the final PDF.
+\title[Learn personalized model that predicts \textbf{EMG} Signals while Keeping user's privacy]{Personalized Deferentially Private Model}
+\author{Moshe}{Beutel}
+
+\begin{document}
+%% Use Roman numerals for the page numbers of the title pages and table of
+%% contents.
+\frontmatter
+
+\include{title/title}
+
+
+%% The (optional) dedication can be used to thank someone or display a
+%% significant quotation.
+% \dedication{\epigraph{Einsteins work is to make physics more philosophical (in a good sense).}{Hendrik Antoon Lorentz}}
+
+{
+  \cleardoublepage%
+  \phantomsection%
+  \pdfbookmark[1]{\contentsname}{toc}
+  \tableofcontents
+}
+
+\include{summary/summary}
+% \include{preface/preface}
+
+%% Use Arabic numerals for the page numbers of the chapters; turn on thumb indices.
+\mainmatter
+% \include{introduction/introduction}
+% \include{conclusion/conclusion}
+
+
+
+% include here papers to be listed in Bibiliography section
+\nocite{Einstein1905a}                               
+\nocite{Einstein1905b}  
+\nocite{Einstein1906}   
+
+\printbibliography
+
+%% Use letters for the chapter numbers of the appendices.
+% \appendix
+% \include{qa/qa}
+
+%% Turn off thumb indices for unnumbered chapters.
+\backmatter
+% \include{epilogue/epilogue}
+% \include{acknowledgements/acknowledgements}
+% \include{cv/cv}
+% \include{publications/publications}
+
+\end{document}
+

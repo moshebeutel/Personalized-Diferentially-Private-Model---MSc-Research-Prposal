@@ -1,0 +1,25 @@
+\documentclass{standalone}
+\RequirePackage{_style/fonts-tudelft}
+\begin{document}
+  \begin{tabular}{@{}l}
+    \ifxetex%
+      Xe\LaTeX
+    \else%
+      \ifpdf Pdf{}\fi\LaTeX
+    \fi\ with
+    \makeatletter
+    \if@fourier
+      Fourier
+    \else
+      \ifxetex
+        Arial, \textrm{RobotoSlab}
+      \else
+        Roboto, \textrm{RobotoSlab}
+      \fi
+    \fi
+    \makeatother\\
+    Text \textit{(it)}: \SI{1e2}{\micro\metre\mega\ohm}\\
+    \(Math: \SI{1e2}{\micro\metre\mega\ohm}\)\\
+    \texttt{Typewriter 0Oo 1Il}
+  \end{tabular}\\
+\end{document}
