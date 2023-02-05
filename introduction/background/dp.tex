@@ -1,0 +1,49 @@
+\section{Differential Privacy}
+The definitions and theorems in this section are taken from \cite{Dwork2014ThePrivacy}
+Given $D \sim D'$ datasets that differs at exactly a single entry. A $(\epsilon,\delta)$-DP algorithm $\mathcal{M}$'s outputs difference is bounded such that an adversary cannot infer the difference between $D$ and $D'$ using  $\mathcal{M}$. \\
+% M's outcome does not expose the data up to a certain privacy budget controlled by $(\epsilon, \delta)$. \\  
+Formally, Given $\epsilon>0, \delta \in [0,1]$ if for every such (D,D')  
+$$  Pr[M(D) \in O] \leq e^{\epsilon}Pr[\mathcal{M}(D') \in O]+ \delta$$ for all measurable sets $O \subseteq range(M)$ the randomized algorithm M is called $(\epsilon,\delta)$-DP. \\
+
+The meaning of $(\epsilon, \delta)$ parameters - \\
+\begin{itemize}
+    \item $\epsilon$ is called the \textit{privacy parameter} or the \textit{privacy budget} and is the amount of privacy we \textbf{know} we loose by $\mathcal{M}$. 
+    \item $\delta$ is the probability of accidental leakage.
+\end{itemize}
+
+
+\subsection{Sensitivity}
+\textbf{Local Sensitivity} - \\
+The \textit{Local Sensitivity} of a function $h:\mathbb{R}^{n}\rightarrow\mathbb{R} \cup \{\infty\}$ is defined as: 
+$$LS_{h}(x)=\sup\{\|h(x')-h(x)\|x'\in\mathbb{R}^{n},d_{H}(x,x')\leq 1 \}$$
+The maximum change in the output h for changing the dataset $x$ with a dataset that differs at most in a single entry.
+\textbf{Global Sensitivity}-
+The Global Sensitivity is the supremum of all Local Sensitivities 
+$$GS_{H}=\sup\limits_{x\in\mathbb{R}^{n}}\{LS_{h}(x)\}$$
+Since the definition of sensitivity involves norms, it is closely dependant on the underling metric. We define the metric on \textit{Numeric Queries} - functions that map databases to k real numbers -  $f: \mathbb{N}^{|\chi|} \leftarrow \mathbb{R}^{k}$.\\
+\textbf{Definition:} The $l_{1}$-sensitivity of a function $f: \mathbb{N}^{|\chi|} \leftarrow \mathbb{R}^{k}$ is: 
+$$ \Delta f = \max_{x,y \in \mathbb{N}^{|\chi|}, ||x-y||_{1}=1} || f(x) - f(y) ||_{1}.$$
+and similarly \\
+\textbf{Definition:} The $l_{2}$-sensitivity of a function $f: \mathbb{N}^{|\chi|} \leftarrow \mathbb{R}^{k}$ is: 
+$$ \Delta f = \max_{x,y \in \mathbb{N}^{|\chi|}, ||x-y||_{1}=1} || f(x) - f(y) ||_{2}.$$
+In the following section we will see that the $l_{1}$-sensitivity is related to the \textit{Laplace Mechanism} and and the $l_{2}$-sensitivity is related to the \textit{Gaussian Mechanism}.
+\subsection{Differential Privacy Mechanisms}
+The most common way to achieve differential privacy is adding noise to the algorithm the data processing algorithm or the learning algorithm. Two common noise types are Laplace Noise and Gaussian Noise.
+\subsubsection{Laplace Mechanism}
+The Laplace Mechanism adds a Laplace distributed noise. \\
+\textbf{Definition:} The \textit{Laplace Distribution} with mean 0 and standard deviation $\sqrt{2} \sigma$ has probability density:
+$$ Lap(x|\sigma)=\frac{1}{2\sigma}\exp \left (- \frac{|x|}{\sigma} \right ).$$ $\sigma$ is the Laplace distribution parameter and a r.v. $X$ drawn from it is noted $X \sim Lap(\sigma)$.
+The Laplace Mechanism is therefore: \\
+\textbf{Definition:} Given any function $f:\mathbb{N}^{|\chi|} \leftarrow \mathbb{R}^{k}$, \textit{The Laplace Mechanism} is defined as:
+$$ \mathcal{M}_{L}(x,f(\cdot), \epsilon) = f(x)+(Y_{1},\ldots ,Y_{k})$$
+where $Y_{i} \sim Lap(\Delta f / \epsilon)$ i.i.d.
+The following theorem states that the Laplace Mechanism ensures Differential Privacy to a given budget. \\
+\textbf{Theorem:} The Laplace Mechanism preserves $(\epsilon, 0)$-differential privacy.
+\subsubsection{Gaussian Mechanism}
+The Gaussian Mechanism adds Gaussian noise. \\
+\textbf{Definition:} The \textit{Gaussian Mechanism} with 0 mean and parameter $\sigma$ adds Gaussian noise distributed $\sim \mathbf{N}(0,\sigma^{2})$ to each of the output's $k$ dimensions.\\
+\textbf{Theorem:} Let $\epsilon \in (0,1)$. For $c^{2} > 2 \ln(1.25/\delta)$, the \textit{Gaussian Mechanism} with parameter $\sigma \geq c\Delta_{2}(f)/\epsilon$ is $(\epsilon, \delta)$-differentialy private.
+
+
+
+

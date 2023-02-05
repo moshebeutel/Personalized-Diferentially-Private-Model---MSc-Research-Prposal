@@ -8,13 +8,13 @@
 
 %% Specify the title and author of the thesis. This information will be used on
 %% the title page (in title/title.tex) and in the metadata of the final PDF.
-\title[Learn personalized model that predicts \textbf{EMG} Signals while Keeping user's privacy]{Personalized Deferentially Private Model}
+\title[Learn personalized model that predicts \textbf{EMG} Signals while Keeping user's privacy]{Personalized Differentialy Private Federated Learning}
 \author{Moshe}{Beutel}
 
 \begin{document}
 %% Use Roman numerals for the page numbers of the title pages and table of
 %% contents.
-\frontmatter
+% \frontmatter
 
 \include{title/title}
 
@@ -24,31 +24,32 @@
 % \dedication{\epigraph{Einsteins work is to make physics more philosophical (in a good sense).}{Hendrik Antoon Lorentz}}
 
 {
-  \cleardoublepage%
+  % \cleardoublepage%
   \phantomsection%
   \pdfbookmark[1]{\contentsname}{toc}
   \tableofcontents
 }
 
-\include{summary/summary}
+% \include{summary/summary}
 % \include{preface/preface}
 
 %% Use Arabic numerals for the page numbers of the chapters; turn on thumb indices.
-\mainmatter
+% \mainmatter
+\include{introduction/background.tex}
 % \include{introduction/introduction}
 % \include{conclusion/conclusion}
 
 
 
 % include here papers to be listed in Bibiliography section
-\nocite{Abadi2016DeepPrivacy}
-\nocite{Rasmussen2006Gaussian2006}
-\nocite{HonkelaGaussianPrivacy}
-\nocite{Wilson2015DeepLearning}
-\nocite{Kaczmarek2019PutEMGADataset}
-\nocite{Achituve2021GP-Tree:Learning}
-\nocite{Achituve2021PersonalizedProcesses}
-\nocite{Dwork2014ThePrivacy}
+% \nocite{Abadi2016DeepPrivacy}
+% \nocite{Rasmussen2006Gaussian2006}
+% \nocite{HonkelaGaussianPrivacy}
+% \nocite{Wilson2015DeepLearning}
+% \nocite{Kaczmarek2019PutEMGADataset}
+% \nocite{Achituve2021GP-Tree:Learning}
+% \nocite{Achituve2021PersonalizedProcesses}
+% \nocite{Dwork2014ThePrivacy}
 \printbibliography
 
 %% Use letters for the chapter numbers of the appendices.
@@ -56,7 +57,7 @@
 % \include{qa/qa}
 
 %% Turn off thumb indices for unnumbered chapters.
-\backmatter
+% \backmatter
 % \include{epilogue/epilogue}
 % \include{acknowledgements/acknowledgements}
 % \include{cv/cv}
