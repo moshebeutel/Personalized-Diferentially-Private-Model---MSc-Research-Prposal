@@ -1,0 +1,28 @@
+
+\chapter{Research Directions}
+\begin{itemize}
+
+    \item \textbf{Backbone for putEMG} - Tried some architectures to learn putEMG data. Mainly focused on convolution models and specifically 3D convolution to capture the two dimensions of the wrist band and the time dimension. Haven't tried transformers yet.
+
+    \item \textbf{Median of Signs} -  Compute sign of per-sample gradient and take the median of signs. Unless $\#\{ \textit{positive gradients}\} - 1 \leq \#\{\textit{negative gradients}\} \leq \#\{\textit{positive gradients}\} + 1 $, this method is not sensitive to a single sample. For sensitive iterations skip backpropagation and zero grad. No noise is needed because privacy is achieved by median.
+
+    \item \textbf{Sample Gradient Distribution} - Estimate Gradient distribution by mean and standard deviation of batch direction at each dimension. Sample from this distribution and use the sample for backpropagation. Another alternative is learn the gradients distribution using a GP.
+
+    \item \textbf{Gradient Embedding Perturbation} - see \ref{GEP}
+
+    \item \textbf{Do not perturb local federated trains gradients}
+     
+
+    \item  \textbf{Measure Accuracy-Privacy Hints} - 
+    \begin{itemize}
+        \item Max Probability value of predictions
+        \item Train-Test per label distance (KL divergance)
+        \item Ability to reconstruct train set (Niv Haim from Weizman)
+    \end{itemize}  
+
+    \item \textbf{Apply \textit{Deepmind}'s technical report \cite{DeUnlockingScale} methods}
+    
+
+     Take a full GD for a toy problem and look at gradient vector field
+    
+\end{itemize}

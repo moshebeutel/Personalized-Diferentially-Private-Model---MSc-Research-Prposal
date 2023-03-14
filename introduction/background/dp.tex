@@ -44,6 +44,22 @@ The Gaussian Mechanism adds Gaussian noise. \\
 \textbf{Definition:} The \textit{Gaussian Mechanism} with 0 mean and parameter $\sigma$ adds Gaussian noise distributed $\sim \mathbf{N}(0,\sigma^{2})$ to each of the output's $k$ dimensions.\\
 \textbf{Theorem:} Let $\epsilon \in (0,1)$. For $c^{2} > 2 \ln(1.25/\delta)$, the \textit{Gaussian Mechanism} with parameter $\sigma \geq c\Delta_{2}(f)/\epsilon$ is $(\epsilon, \delta)$-differentialy private.
 
+\subsection{Gradient Embedding Perturbation (GEP)}
+\label{GEP}
+\cite{Yu2021DoLearning} presents the GEP algorithm. The main trick of the GEP algorithm is use an \textit{anchor subspace} which is constructed as follows. Using an auxiliary, non-sensitive, dataset $\mathbb{D}^{(a)}$ that contains $m$ samples compute an anchor gradients $G^{(a)} \in \mathbb{R}^{m \times p}$. Estimate the principal components of the anchor gradients using power methods to construct the subspace basis $B \in \mathbb{R}^{k \times p}$ which is the \textit{anchor subspace}. Since the auxiliary dataset is similar to the private dataset we expect the anchor subspace $B$ to express the private gradients as well. 
 
+GEP algorithm can thus be described as follows: 
+\begin{enumerate}
+    \item Estimate an anchor subspace that contains the principal components of some non-sensitive anchor gradients via power methods. The anchor subspace is constructed as follows. 
+    \item Project the private gradients $G \in \mathbb{R}^{n \times p}$ into the anchor subspace $B$ and produce low-dimensional embedding $W=GB^{T}$ of private gradients and  residual gradients  $R=G-GB^{T}B$ which have much smaller magnitude. Use $S_{1}$ threshold to clip $W$'s rows and obtain $\hat{W}$, and use $S_{2}$ threshold to clip $R$'s rows to obtain $\hat{R}$.
+    \item Aggregate the gradient embedding the residual embedding \textbf{separately}  and perturb each of these aggregations with Gaussian noise.
+    \begin{itemize}
+        \item Embedding aggregation perturbation:  $z^{(1)} \sim \mathbf{N}(0, \sigma_{1}^{2}I_{k \times k}): w:=\sum_{i} \hat{W}_{i}, \Tilde{w}:=w+z^{(1)}$. 
+        \item Residual gradients aggregation perturbation: $z^{(2)} \sim \mathbf{N}(0,\sigma_{2}^{2}I_{p \times p}): r:=\sum_{i} \hat{R}_{i}, \Tilde{r}:=r+z^{(2)}$
+        \item Unbiased estimator of the private gradient: $\Tilde{v}:=(\Tilde{w}^{T}B+\Tilde{r})/n$
+    \end{itemize}
+    
+    
+\end{enumerate}
 
 

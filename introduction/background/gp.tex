@@ -1,1 +1,27 @@
 \section{Gaussian Processes}
+
+\subsection{Multi Variate Gaussian Distribution}
+
+definition, marginalization, conditioning , consistency requirement
+
+\subsection{Gaussian Process}
+The following definition is taken from \cite{Rasmussen2006Gaussian2006}: \\
+\textbf{Definition:} A Gaussian Process (GP) is a collection of random variables where any finite subset of these variables are jointly Gaussian. \\
+One can view a GP as a distribution over functions where a random function $f:R^{n} \rightarrow R^{m}$ sampled from some GP has a mean value defined by a mean function $\mu: R^{n} \rightarrow R^{m}$ and covariance function between different $f$ values defined by a kernel function $k(x,x'): (R^{n}, R^{n}) \rightarrow R^{m} $ 
+Formally,
+$$f(x) \sim GP(\mu(x), k(x,x')),$$ where $$\mu(x)=E[f(x)]$$ $$k(x,x')=E[(f(x)-\mu(x))(f(x')-\mu(x))]$$ 
+
+There are several families of kernel functions of which the most popular/trivial is called the \textit{Squared Exponential} or \textit{Radial Basis Function} (\textbf{RBF}) which is defined as: \\
+$$k(x,x')=\sigma^{2} exp(-\frac{\lVert x-x' \rVert ^{2}}{2l^{2}})$$. The hyperparameters are: \\
+\begin{itemize}
+    \item $\sigma$ - The prior \textit{standard deviation} - Controls each individual values vary
+    \item $l$ - The \textit{lengthscale} - Controls how distant input values affect each other
+\end{itemize}
+
+\subsection{Variational Inference and Inducing Points}
+GPs have a natural problem with scaling to large datasets. Computation needs $O(n^{2})$ memory and   time complexity scales as $O(n^{3})$. Many approximation methods have been developed to overcome this problem. These approximations are based on a small set of $m$ \textit{inducing points} that reduce the time complexity from $O(n^{3})$ to $O(nm^{2})$. Some of the methods pick the inducing points from the train (SoD) or test points and some propose pseudo-inputs that are optimized along with the kernel hyperparameters. 
+
+\cite{pmlr-v5-titsias09a} propose a variational approach to construct the inducing points by maximizing the the lower bound to the exact marginal likelihood. This approach estimates the exact GP model by minimizing the distance to the sparse one  thus avoids overfitting to the train data.
+
+\subsection{Deep Kernel Learning}
+
