@@ -1,2 +1,47 @@
-\section{`putEMG` Dataset}
-See \cite{Kaczmarek2019PutEMGADataset}
+\section{ $\textbf{putEMG}$ Dataset}
+The putEMG dataset \cite{Kaczmarek2019PutEMGADataset} contains multi-channel surface electromyographic activity recorded from forearm. 
+\subsection{Experiment Procedures}
+Experiments were originally conducted on 44 participants. At each session the participant wore a 24 (8x3) electrode matrix and performed a series of 7 different actions separated by an idle state:
+\begin{itemize}
+    \item 0 - Idle state
+    \item 1 - Fist
+    \item 2 - Flexion
+    \item 3 - Extension
+    \item 6 - Pinch index
+    \item 7 - Pinch middle
+    \item 8 - Pinch ring
+    \item 9 - Pinch small
+\end{itemize}
+
+\textit{Action Block} - The basic experiment procedure. A series of gestures and idle states performed as follows:\\
+
+\textbf{for} $i$ in \textit{action\_set}:
+\begin{enumerate}
+    \item  \textbf{Do} gesture $i$ for $1$ or $3$ seconds (depending on trajectory - more on this later)
+    \item   \textbf{Do} idle gesture for $3$ seconds
+\end{enumerate}
+ Between action blocks user were able to relax and move their hands freely for 10 seconds. A relax period is marked as -1. Each action block begins and ends with an idle gesture.
+
+\textit{Trajectory} - A series of action blocks separated by relax periods.\\
+Trajectory Types - 
+\begin{itemize}
+    \item \textit{repeats\_long} - 7 action blocks, each block contains 8 repetitions of each active gesture: [relax] 0-1-0-1-0-1-0-1-0-1-0-1-0-1-0-1-0 [relax] 0-2-0-2-0-2-0-2-0-2-0-2-0-2-0-2-0 [relax] 0-3-0... ,
+    \item \textit{sequential} - 6 action blocks, each block is a subsequent execution of all active gestures: [relax] 0-1-0-2-0-3-0-6-0-7-0-8-0-9-0 [relax] 0-1-0-2-0-3-0-6-0-7-0-8-0-9-0 [relax] 0-1-0-2-0... ,
+    \item \textit{repeats\_short} - 7 action blocks, each block contains 6 repetitions of each active gesture: [relax] 0-1-0-1-0-1-0-1-0-1-0-1-0 [relax] 0-2-0-2-0-2-0-2-0-2-0-2-0 [relax] 0-3-0... .
+\end{itemize}
+In a single experiment session a user performed the 3 trajectory types once which is summed to repeat each gesture 20 times.
+
+Each participant had 2 sessions separated by minimum one week.
+
+\subsection{Dataset Structure}
+The dataset contains a csv file per user experiments (44 users X 2 Experiment sessions X 3 trajectory types = 264 files).
+Each csv file contains a data frame with the following columns:
+\begin{itemize}
+    \item 24 EMG\_$i$ columns (1 per electrode) - The raw ADC signal value. A raw ADC signal read can be converted to milivolot using the following formula:
+    $$N \rightarrow \frac{N \cdot 5}{2^{12}}\frac{1000}{200}[mV]$$
+    \item TRAJ\_1- The gesture that was presented to the participant
+    \item TRAJ\_GT\_NO\_FILTER - Gesture labeling using video stream gesture recognition algorithm. A VGGNet based recognition with no filter.
+    \item TRAJ\_GT - The output of the median filter applied to the VGGNet and a window of 250 ms before presenting the action $i$ to 2000 ms after presenting the next action where outside this window action $i$ was discarded. \\ \textit{This column values were taken as ground true for the purpose of this research.}
+    
+\end{itemize}
+

@@ -3,12 +3,12 @@ The definitions and theorems in this section are taken from \cite{Dwork2014ThePr
 Given $D \sim D'$ datasets that differs at exactly a single entry. A $(\epsilon,\delta)$-DP algorithm $\mathcal{M}$'s outputs difference is bounded such that an adversary cannot infer the difference between $D$ and $D'$ using  $\mathcal{M}$. \\
 % M's outcome does not expose the data up to a certain privacy budget controlled by $(\epsilon, \delta)$. \\  
 Formally, Given $\epsilon>0, \delta \in [0,1]$ if for every such (D,D')  
-$$  Pr[M(D) \in O] \leq e^{\epsilon}Pr[\mathcal{M}(D') \in O]+ \delta$$ for all measurable sets $O \subseteq range(M)$ the randomized algorithm M is called $(\epsilon,\delta)$-DP. \\
+$$  Pr[M(D) \in O] \leq e^{\epsilon}Pr[\mathcal{M}(D') \in O]+ \delta$$ for all measurable sets $O \subseteq \texttt{range}(M)$ the randomized algorithm M is called $(\epsilon,\delta)$-DP. \\
 
 The meaning of $(\epsilon, \delta)$ parameters - \\
 \begin{itemize}
     \item $\epsilon$ is called the \textit{privacy parameter} or the \textit{privacy budget} and is the amount of privacy we \textbf{know} we loose by $\mathcal{M}$. 
-    \item $\delta$ is the probability of accidental leakage.
+    \item $\delta$ is the probability of \textbf{accidental} leakage.
 \end{itemize}
 
 
@@ -16,8 +16,8 @@ The meaning of $(\epsilon, \delta)$ parameters - \\
 \textbf{Local Sensitivity} - \\
 The \textit{Local Sensitivity} of a function $h:\mathbb{R}^{n}\rightarrow\mathbb{R} \cup \{\infty\}$ is defined as: 
 $$LS_{h}(x)=\sup\{\|h(x')-h(x)\|x'\in\mathbb{R}^{n},d_{H}(x,x')\leq 1 \}$$
-The maximum change in the output h for changing the dataset $x$ with a dataset that differs at most in a single entry.
-\textbf{Global Sensitivity}-
+The maximum change in the output h for changing the dataset $x$ with a dataset that differs at most in a single entry. \\
+\textbf{Global Sensitivity} - \\
 The Global Sensitivity is the supremum of all Local Sensitivities 
 $$GS_{H}=\sup\limits_{x\in\mathbb{R}^{n}}\{LS_{h}(x)\}$$
 Since the definition of sensitivity involves norms, it is closely dependant on the underling metric. We define the metric on \textit{Numeric Queries} - functions that map databases to k real numbers -  $f: \mathbb{N}^{|\chi|} \leftarrow \mathbb{R}^{k}$.\\

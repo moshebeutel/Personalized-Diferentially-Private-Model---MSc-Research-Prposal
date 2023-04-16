@@ -1,1 +1,22 @@
 \section{Federated Learning}
+In the \textit{Federated Learning} (\textbf{FL}) setup multiple clients collaborate to solve a machine learning problem under some central aggregator. This setup is increasingly attractive with the rise of mobile smartphones wearable devices, IoT and smart homes. FL rises a few theoretical and technical challenges.
+
+\subsection{Federated Learning Formal Definition}
+\textbf{Definition}: $N$ users, $\{U_{1},...,U_{n}\}$ each of them owns a database  $\{D_{1},...,D_{n} \}$ respectively, where $U_{i}$ can access $D_{j}$ iff $i=j$. I federated learning learns a model by collecting training information from the different users. Usually this is done in the following schema.
+\begin{itemize}
+    \item Server sends initial model $\theta_{0}$ to clients.
+    \item $U_{i}$ trains the model using $D_{i}$.
+    \item Server aggregates local models $\theta_{0,i}$ to construct a global model.
+    \item Server sends updated model $\theta_{1}$ to clients.
+\end{itemize}
+The above schema can of course be repeated multiple times till convergence.
+
+\subsection{FL Challenges}
+\begin{itemize}
+    \item \textbf{Massively Distributed} - $\# \{ \text{Clients} \} > >  \# \{ \text{Data per Client} \}$
+    \item \textbf{Non-IID} - The data distribution at specific client does not represent the global population.
+    \item \textbf{Unbalanced} - Users produce significantly different amount of data due to device use habits.
+    \item \textbf{Limited Communication} - Some clients may be offline frequently or have limited connectivity.               
+    \item \textbf{User Privacy}
+    \item \textbf{Personalization}
+\end{itemize}
