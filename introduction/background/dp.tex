@@ -1,6 +1,6 @@
 \section{Differential Privacy}
 The definitions and theorems in this section are taken from \cite{Dwork2014ThePrivacy}. \\
-Given $D \sim D'$ datasets that differs at exactly a single entry. A $(\epsilon,\delta)$-DP algorithm $\mathcal{M}$'s outputs difference is bounded such that an adversary cannot infer the difference between $D$ and $D'$ using  $\mathcal{M}$. \\
+Given $D \sim D'$ datasets that differs at exactly a single entry, A $(\epsilon,\delta)$-DP algorithm $\mathcal{M}$'s outputs difference is bounded such that an adversary cannot infer the difference between $D$ and $D'$ using  $\mathcal{M}$. \\
 % M's outcome does not expose the data up to a certain privacy budget controlled by $(\epsilon, \delta)$. \\  
 Formally, Given $\epsilon>0, \delta \in [0,1]$ if for every such (D,D')  
 $$  Pr[M(D) \in O] \leq e^{\epsilon}Pr[\mathcal{M}(D') \in O]+ \delta$$ for all measurable sets $O \subseteq \texttt{range}(M)$ the randomized algorithm M is called $(\epsilon,\delta)$-DP. \\
@@ -46,7 +46,7 @@ The Gaussian Mechanism adds Gaussian noise. \\
 
 \subsection{Gradient Embedding Perturbation (GEP)}
 \label{GEP}
-\cite{Yu2021DoLearning} presents the GEP algorithm. The main trick of the GEP algorithm is use an \textit{anchor subspace} which is constructed as follows. Using an auxiliary, non-sensitive, dataset $\mathbb{D}^{(a)}$ that contains $m$ samples compute an anchor gradients $G^{(a)} \in \mathbb{R}^{m \times p}$. Estimate the principal components of the anchor gradients using power methods to construct the subspace basis $B \in \mathbb{R}^{k \times p}$ which is the \textit{anchor subspace}. Since the auxiliary dataset is similar to the private dataset we expect the anchor subspace $B$ to express the private gradients as well. 
+\cite{Yu2021DoLearning} presents the Gradient Embedding Perturbation (GEP) algorithm. The motivation behind GEP is that the gradients live in some manifold while the noise added to them is isotropic so we wish to first reduce the dimension of the gradients and then add the noise. The main trick of the GEP algorithm is use an \textit{anchor subspace} which is constructed as follows. Using an auxiliary, non-sensitive, dataset $\mathbb{D}^{(a)}$ that contains $m$ samples, compute an anchor gradients $G^{(a)} \in \mathbb{R}^{m \times p}$. Estimate the principal components of the anchor gradients using power methods to construct the subspace basis $B \in \mathbb{R}^{k \times p}$ which is the \textit{anchor subspace}. Since the auxiliary dataset is similar to the private dataset we expect the anchor subspace $B$ to express the private gradients as well. 
 
 GEP algorithm can thus be described as follows: 
 \begin{enumerate}

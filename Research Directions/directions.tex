@@ -1,4 +1,6 @@
-\chapter{Research Directions}
+\chapter{Research Contribution}
+\textbf{***focus on dp federated while we allow some public useres}
+The main goal of the research is to use some small number of \textit{public users} - paid users who consented to their private data being exposed - to express gradients during the federated learning process. Applying differential privacy mecahnism to the estimated gradients will enable better privacy budget using less noise and thus better learning.
 \section{Differentially Private Federated Learning  Setup for EMG Data }
 EMG data is naturally acquired in a federated manner by sensing the different users using wrist bands. The internal epoch done locally on users device are considered private. This means that no matter how many times the local model "sees" the private data, the gradients are then sent to the aggregator are considered as a single data sample contribution. Moreover, several "paid" users agreed to make their data not differntially private. This public subset enables the use of methods like GEP \cite{Yu2021DoLearning} 
 \subsection{Federated GEP}
@@ -69,3 +71,15 @@ The federated training is done as follows:
      Take a full GD for a toy problem and look at gradient vector field
     
 \end{itemize}
+
+\section{Initial Experimental Results}
+Initial experimental runs  were done to compare the privacy and performance achieved using GEP with and without residuals compared to DP-SGD.
+
+ \begin{itemize}
+           \item Experiments were done on CIFAR10 datset
+           \item Learned using a simple MLP model
+           \item 500 train users, each know 2 classes out of 10.
+           \item 4 paid users are considered public users. Their learning process is used to span the subspace all gradients are projected to.
+ \end{itemize}
+  \includegraphics[height = 0.55\textwidth]{images/cifar10_dpsgd_vs_gep.png} \\
+  From the initial results we see that if the privacy budget is $ \geq 3$, the advantage looks clear, but if it is low, the advantage is not so apparent. We hope to achieve better performance even for smaller privacy budget.
