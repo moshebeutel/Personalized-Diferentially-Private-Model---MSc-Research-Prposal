@@ -1,19 +1,119 @@
 \chapter{Introduction}
+\section{EMG}
+The rapid growth of wearable technology and the increasing availability of electromyography (\textbf{EMG}) wrist devices have opened up new possibilities for monitoring and analyzing human movements. \\
 
-The rapid growth of wearable technology and the increasing availability of electromyography (\textbf{EMG}) wrist devices have opened up new possibilities for monitoring and analyzing human movements. Learning a gesture classifier in a \textbf{Federated} manner makes use of large population data while personalizing model inference to a specific user. However, the use of such data raises privacy concerns, as it contains sensitive information about individuals. \textbf{Differential privacy} \cite{Dwork2013ThePrivacy} has emerged as a powerful technique to address these privacy concerns while still allowing valuable insights to be derived from the data.\\
+\subsection{The putEMG Dataset}
+The putEMG dataset \cite{Kaczmarek2019PutEMGADataset} contains multi-channel surface electromyographic activity recorded from forearm. 
+\subsubsection{Experiment Procedures}
+Experiments were originally conducted on 44 participants. At each session the participant wore a 24 (8x3) electrode matrix and performed a series of 7 different actions separated by an idle state:
+\begin{itemize}
+    \item 0 - Idle state
+    \item 1 - Fist
+    \item 2 - Flexion
+    \item 3 - Extension
+    \item 6 - Pinch index
+    \item 7 - Pinch middle
+    \item 8 - Pinch ring
+    \item 9 - Pinch small
+\end{itemize}
 
-EMG data collected from wrist devices contains personal information about users' hand movements, gestures, and muscle activity. This sensitive data must not be pulled out of users' devices to protect individuals' privacy. Moreover, the increasing adoption of EMG wrist devices in various applications, such as rehabilitation, virtual reality, and human-computer interaction, highlights the need for accurate models.\\
+\textit{Action Block} - The basic experiment procedure. A series of gestures and idle states performed as follows:\\
+
+\textbf{for} $i$ in \textit{action\_set}:
+\begin{enumerate}
+    \item  \textbf{Do} gesture $i$ for $1$ or $3$ seconds (depending on trajectory - more on this later)
+    \item   \textbf{Do} idle gesture for $3$ seconds
+\end{enumerate}
+ Between action blocks user were able to relax and move their hands freely for 10 seconds. A relax period is marked as -1. Each action block begins and ends with an idle gesture.
+
+\textit{Trajectory} - A series of action blocks separated by relax periods.\\
+Trajectory Types - 
+\begin{itemize}
+    \item \textit{repeats\_long} - 7 action blocks, each block contains 8 repetitions of each active gesture: [relax] 0-1-0-1-0-1-0-1-0-1-0-1-0-1-0-1-0 [relax] 0-2-0-2-0-2-0-2-0-2-0-2-0-2-0-2-0 [relax] 0-3-0... ,
+    \item \textit{sequential} - 6 action blocks, each block is a subsequent execution of all active gestures: [relax] 0-1-0-2-0-3-0-6-0-7-0-8-0-9-0 [relax] 0-1-0-2-0-3-0-6-0-7-0-8-0-9-0 [relax] 0-1-0-2-0... ,
+    \item \textit{repeats\_short} - 7 action blocks, each block contains 6 repetitions of each active gesture: [relax] 0-1-0-1-0-1-0-1-0-1-0-1-0 [relax] 0-2-0-2-0-2-0-2-0-2-0-2-0 [relax] 0-3-0... .
+\end{itemize}
+In a single experiment session a user performed the 3 trajectory types once which is summed to repeat each gesture 20 times.
+
+Each participant had 2 sessions separated by minimum one week.
+
+\subsection{Dataset Structure}
+The dataset contains a csv file per user experiments (44 users X 2 Experiment sessions X 3 trajectory types = 264 files).
+Each csv file contains a data frame with the following columns:
+\begin{itemize}
+    \item 24 EMG\_$i$ columns (1 per electrode) - The raw ADC signal value. A raw ADC signal read can be converted to milivolot using the following formula:
+    $$N \rightarrow \frac{N \cdot 5}{2^{12}}\frac{1000}{200}[mV]$$
+    \item TRAJ\_1- The gesture that was presented to the participant
+    \item TRAJ\_GT\_NO\_FILTER - Gesture labeling using video stream gesture recognition algorithm. A VGGNet based recognition with no filter.
+    \item TRAJ\_GT - The output of the median filter applied to the VGGNet and a window of 250 ms before presenting the action $i$ to 2000 ms after presenting the next action where outside this window action $i$ was discarded. \\ \textit{This column values were taken as ground true for the purpose of this research.}
+    
+\end{itemize}
+% The putEMG dataset \cite{Kaczmarek2019PutEMGADataset} comprises multi-channel surface electromyographic (EMG) activity recorded from the forearm. The experimental device is equipped with 24 electrodes arranged in three rows of eight electrodes around the wrist. Participants execute a predefined sequence of gestures at a specific tempo. Each participant repeats this sequence two weeks after their initial performance.\\
+
+% \textit{Action Block} - The basic experiment procedure. A series of gestures and idle states performed as follows:\\
+
+%         \textbf{for} $i$ in \textit{action\_set}:
+%         \begin{enumerate}
+%             \item  \textbf{Do} gesture $i$ for $1$ or $3$ seconds (depending on trajectory - more on this later)
+%             \item   \textbf{Do} idle gesture for $3$ seconds
+%         \end{enumerate}
+%          Between action blocks user were able to relax and move their hands freely for 10 seconds. A relax period is marked as -1. Each action block begins and ends with an idle gesture.
+% Trajectory Types - 
+%         \begin{itemize}
+%             \item \textit{repeats\_long} - 7 action blocks, each block contains 8 repetitions of each active gesture: [relax] 0-1-0-1-0-1-0-1-0-1-0-1-0-1-0-1-0 [relax] 0-2-0-2-0-2-0-2-0-2-0-2-0-2-0-2-0 [relax] 0-3-0... ,
+%             \item \textit{sequential} - 6 action blocks, each block is a subsequent execution of all active gestures: [relax] 0-1-0-2-0-3-0-6-0-7-0-8-0-9-0 [relax] 0-1-0-2-0-3-0-6-0-7-0-8-0-9-0 [relax] 0-1-0-2-0... ,
+%             \item \textit{repeats\_short} - 7 action blocks, each block contains 6 repetitions of each active gesture: [relax] 0-1-0-1-0-1-0-1-0-1-0-1-0 [relax] 0-2-0-2-0-2-0-2-0-2-0-2-0 [relax] 0-3-0... .
+%         \end{itemize}
+%         In a single experiment session a user performed the 3 trajectory types once which is summed to repeat each gesture 20 times.
+        
+%         Each participant had 2 sessions separated by minimum one week.
+
+% The dataset contains a csv file per user experiments (44 users X 2 Experiment sessions X 3 trajectory types = 264 files).
+% Each csv file contains a data frame with the following columns:
+% \begin{itemize}
+%     \item 24 EMG\_$i$ columns (1 per electrode) - The raw ADC signal value. A raw ADC signal read can be converted to milivolt using the following formula:
+%     $$N \rightarrow \frac{N \cdot 5}{2^{12}}\frac{1000}{200}[mV]$$
+%     % \item TRAJ\_1- The gesture that was presented to the participant
+%     % \item TRAJ\_GT\_NO\_FILTER - Gesture labeling using video stream gesture recognition algorithm. A VGGNet based recognition with no filter.
+%     \item TRAJ\_GT - The output of the median filter applied to the VGGNet and a window of 250 ms before presenting the action $i$ to 2000 ms after presenting the next action where outside this window action $i$ was discarded. \\ \textit{This column values were taken as ground true for the purpose of this research.}
+% \end{itemize}
+
+\section{The Privacy Problem}
+
+The EMG data collected from wrist devices contains personal information about users' hand movements, gestures, and muscle activity. This sensitive data could be exploited by malicious hackers with the intent to harm users or steal their identity. \\
+
+Moreover, the increasing adoption of EMG data in various applications, such as rehabilitation, virtual reality, and human-computer interaction, highlights the need for accurate models. Accurate models need a large amount of data to be learned \\
+
+EMG data must be safeguarded for privacy reasons, whereas EMG models require a substantial amount of data for effective training. These two objectives are not inherently aligned. \\
+
+
 
 The objective of this thesis proposal is to learn a machine learning model of EMG data in a federated manner such that differential privacy is kept and accuracy is as good as we can get. By preserving the privacy of individual users while enabling robust analysis, we aim to strike a balance between privacy preservation and data utility. Additionally, we propose a novel approach that involves leveraging public users to embed gradients onto their subspace, further enhancing the privacy guarantees.\\
 
-Differential privacy offers a rigorous framework for privacy preservation in data analysis. By introducing carefully calibrated noise into the computation process, it ensures that individual data points - in our case individual users -  remain indistinguishable in the final analysis results. This statistical privacy concept provides a formal and provable guarantee of privacy, even when an adversary has access to auxiliary information.\\
+% start with EMG
+% privacy problem 
+% weak privacy - fl
+% strong privacy - dp but degrades perf
+% we search for a way to improve perf
+% suggest use public users - use minimum public users and use for private users
+\section{Weak Privacy and Strong Privacy}
+Learning a gesture classifier in a \textbf{Federated} manner makes use of large population data while not pulling personal sensitive data from the wearable device. Moreover, federated learning has the advantage of personalizing model inference to a specific user. \\
 
-The \textbf{DP-SGD} \cite{Abadi2016DeepPrivacy} method is an efficient way to incorporate differential privacy to deep learning model. DP-SGD adds noise to the gradients before gradients are backpropagetd through the network 
+But as demonstrated in the Netflix Prize competition, a renowned competition in the field of recommendation systems, \textbf{data anonymization does not ensure privacy}. While the contest aimed to improve movie recommendations by encouraging data sharing and algorithm development, it inadvertently exposed the potential risks of de-anonymization when researchers were able to de-anonymize users' personal data by cross referencing models trained on Netflix anonymized data with the IMDb dataset which is not anonymized. This event demonstrated how seemingly anonymized data can be de-anonymized when combined with additional information. 
 
-To enhance the privacy guarantees of EMG wrist data, we propose a novel approach that involves leveraging \textbf{public users} who voluntarily contribute their data for the embedding of gradients onto their subspace. By incorporating the gradients from the private users' data onto a public subspace, we can collectively train a more accurate model while maintaining privacy. This approach not only reduces the amount of sensitive information shared among users but also promotes collaboration and knowledge transfer.\\
+A proposed technique to address this concern is \textbf{Differential privacy} \cite{Dwork2013ThePrivacy}. \\
+Differential privacy offers a rigorous framework for privacy preservation in data analysis while still allowing valuable insights to be derived from the data. By introducing carefully calibrated noise into the computation process, it ensures that individual data points - in our case individual users -  remain indistinguishable in the final analysis results. This statistical privacy concept provides a formal and provable guarantee of privacy, even when an adversary has access to auxiliary information.\\
+
+The \textbf{DP-SGD} \cite{Abadi2016DeepPrivacy} method is an efficient way to incorporate differential privacy to deep learning model. DP-SGD adds noise to the gradients before gradients are backpropagetd through the network. Moreover, DP-SGD computes the amount of privacy spent at each learning step and at the overall learning process. 
+
+The \textbf{GEP} \cite{Yu2021DoLearning} proposes a method for estimating model gradients during training by incorporating them into a lower-rank subspace. Subsequently, privacy noise is introduced to the incorporated gradients. The motivation is that less noise is needed for the same amount of privacy. \\
+
+\section{Our Contribution - Performance of Differential Private Federated Learning U sing Public Users }
+Although effective, DP-SGD and GEP still exhibit a reduction in performance. To enhance the performance of EMG data models inference while maintaining privacy assurances, we propose a novel approach that relies on the participation of \textbf{public users} who are willing to expose their data. The public users' data is used for gradient subspace computation that all private gradients will be embedded into. We assume that the more gradients' "energy" is concentrated in the embedding subspace, the learned model will perform better.\\
 
 
-The proposed thesis aims to address the critical need for privacy in the analysis of EMG wrist data while preserving data utility. By leveraging differential privacy techniques and incorporating public users for gradient embedding, we strive to achieve robust privacy guarantees and enhance the accuracy of models trained on EMG data. This research has the potential to advance the field of privacy-preserving federated learning in the domain of EMG wrist data analysis and contribute to the development of secure and privacy-conscious wearable technologies.
+
+% The proposed thesis aims to address the critical need for privacy in the analysis of EMG wrist data while preserving data utility. By leveraging differential privacy techniques and incorporating public users for gradient embedding, we strive to achieve robust privacy guarantees and enhance the accuracy of models trained on EMG data. This research has the potential to advance the field of privacy-preserving federated learning in the domain of EMG wrist data analysis and contribute to the development of secure and privacy-conscious wearable technologies.
 
 % \begin{refsection} %% This is needed to create a separate references section for this chapter.
 % \begingroup

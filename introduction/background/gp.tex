@@ -1,8 +1,8 @@
 \section{Gaussian Processes}
 
-\subsection{Multi Variate Gaussian Distribution}
+% \subsection{Multi Variate Gaussian Distribution}
 
-definition, marginalization, conditioning , consistency requirement
+% definition, marginalization, conditioning , consistency requirement
 
 \subsection{Gaussian Process}
 The following definition is taken from \cite{Rasmussen2006Gaussian2006}: \\
@@ -24,4 +24,5 @@ GPs have a natural problem with scaling to large datasets. Computation needs $O(
 \cite{pmlr-v5-titsias09a} propose a variational approach to construct the inducing points by maximizing the the lower bound to the exact marginal likelihood. This approach estimates the exact GP model by minimizing the distance to the sparse one  thus avoids overfitting to the train data.
 
 \subsection{Deep Kernel Learning}
+The kernel function plays a key role in the quality of the GP. For many data types (images e.g.) standard kernels over raw features does not perform well. \cite{Wilson2015DeepLearning} introduces Deep Kernel Learning where standard kernels like RBF are learned over features outputted from neural network.
 

@@ -16,7 +16,7 @@ The above schema can of course be repeated multiple times till convergence.
     \item \textbf{Massively Distributed} - $\# \{ \text{Clients} \} > >  \# \{ \text{Data per Client} \}$
     \item \textbf{Non-IID} - The data distribution at specific client does not represent the global population.
     \item \textbf{Unbalanced} - Users produce significantly different amount of data due to device use habits.
-    \item \textbf{Limited Communication} - Some clients may be offline frequently or have limited connectivity.               
-    \item \textbf{User Privacy}
-    \item \textbf{Personalization}
+    \item \textbf{Limited Communication} - Some clients may be offline frequently or have limited connectivity. Therefore, not available for sampling or model updates.               
+    \item \textbf{User Privacy} - Although data is not pulled out of user device privacy is not guaranteed and differential privacy methods should be applied.
+    \item \textbf{Personalization} - Tailoring a machine learning model to an individual user's preferences, needs, or characteristics by model adaptation at the edge. One such adaptation of the model is inferring by a Gaussian Process that uses the global model as its backbone.
 \end{itemize}
