@@ -157,8 +157,8 @@ The \textbf{DP-SGD} \cite{Abadi2016DeepPrivacy} method is an efficient way to in
 
 The \textbf{GEP} \cite{Yu2021DoLearning} proposes a method for estimating model gradients during training by incorporating them into a lower-rank subspace. Subsequently, privacy noise is introduced to the incorporated gradients. The motivation is that less noise is needed for the same amount of privacy. \\
 
-\section{Our Contribution - Performance of Differential Private Federated Learning U sing Public Users }
-Although effective, DP-SGD and GEP still exhibit a reduction in performance. To enhance the performance of EMG data models inference while maintaining privacy assurances, we propose a novel approach that relies on the participation of \textbf{public users} who are willing to expose their data. The public users' data is used for gradient subspace computation that all private gradients will be embedded into. We assume that the more gradients' "energy" is concentrated in the embedding subspace, the learned model will perform better.\\
+% \section{Our Contribution - Performance of Differential Private Federated Learning U sing Public Users }
+% Although effective, DP-SGD and GEP still exhibit a reduction in performance. To enhance the performance of EMG data models inference while maintaining privacy assurances, we propose a novel approach that relies on the participation of \textbf{public users} who are willing to expose their data. The public users' data is used for gradient subspace computation that all private gradients will be embedded into. We assume that the more gradients' "energy" is concentrated in the embedding subspace, the learned model will perform better.\\
 
 \section{Federated Learning}
 In the \textit{Federated Learning} (\textbf{FL}) setup multiple clients collaborate to solve a machine learning problem under some central aggregator. This setup is increasingly attractive with the rise of mobile smartphones wearable devices, IoT and smart homes. FL rises a few theoretical and technical challenges.
@@ -270,10 +270,22 @@ GPs have a natural problem with scaling to large datasets. Computation needs $O(
 \subsection{Deep Kernel Learning}
 The kernel function plays a key role in the quality of the GP. For many data types (images e.g.) standard kernels over raw features does not perform well. \cite{Wilson2015DeepLearning} introduces Deep Kernel Learning where standard kernels like RBF are learned over features outputted from neural network.
 
+\chapter{Research Goal}
+% The goal of this research is to train a model that predicts human hand gestures by his EMG readings. The model training has to be done in a federated manner while not pulling out private data from user's device. Furthermore the model training itself has to be differentially private so as not enabling extraction of private data by querying the model and cross referencing with other datasets. While preserving privacy we still want our model to be accurate. In order to achieve we introduce a little relaxation to the problem by allowing some small set of public users - paid users that agreed to expose their personal data. We then apply the GEP \cite{Yu2021DoLearning} method to federated learning by using the public users gradients as embedding subspace basis and project all gradients to that subspace. The projected gradients are then perturbed following the the Gaussian privacy mechanism and sent to the federated learning server for aggregation and learning.
+
+The goal of this research is to develop a model capable of predicting human hand gestures based on electromyography (EMG) readings. The model training process is designed to adhere to a federated approach, ensuring that private data is not extracted from users' devices. Additionally, the model training incorporates differential privacy measures to prevent the extraction of private data through queries and cross-referencing with external datasets.
+
+While maintaining a focus on privacy, we aim to uphold the accuracy of our model. To strike a balance, we introduce a slight relaxation to the problem by permitting a small set of public users—specifically, paid users who have consented to exposing their personal data. To achieve this, we leverage the Gradient Embedding Projection (GEP) method \cite{Yu2021DoLearning} in the context of federated learning. The gradients of the public users serve as the embedding subspace basis, and all gradients are projected onto this subspace.
+
+Subsequently, the projected gradients undergo perturbation using the Gaussian privacy mechanism before being transmitted to the federated learning server for aggregation and further learning. This comprehensive approach ensures both the preservation of privacy and the enhancement of model accuracy in predicting human hand gestures.
+
+% Since the EMG data have geometric meaning - the relative positions of electrodes -  and temporal meaning we want to develop an architecture that will capture the relation between the signal and the gesture preformed.  
+
+In light of the geometric and temporal significance inherent in EMG data, particularly concerning the relative positions of electrodes, we aim to construct an architecture that comprehensively captures the relationship between the EMG signal and the executed hand gesture. Through the development of such an architecture, we seek to elevate our model's ability to discern and interpret the connections between EMG readings and the corresponding gestures performed.
 
 \chapter{Research Contribution}
 % \textbf{***focus on dp federated while we allow some public useres}
-The main goal of the research is to use some small number of \textit{public users} - paid users who consented to their private data being exposed - to express gradients during the federated learning process. Applying differential privacy mechanism to the estimated gradients will enable better privacy budget using less noise and thus better learning.
+% The main goal of the research is to use some small number of \textit{public users} - paid users who consented to their private data being exposed - to express gradients during the federated learning process. Applying differential privacy mechanism to the estimated gradients will enable better privacy budget using less noise and thus better learning.
 \section{Differentially Private Federated Learning  Setup for EMG Data }
 EMG data is naturally acquired in a federated manner by sensing the different users using wrist bands. The internal epoch done locally on users device are considered private. This means that no matter how many times the local model "sees" the private data, the gradients are then sent to the aggregator are considered as a single data sample contribution. Moreover, several "paid" users agreed to make their data not differntially private. This public subset enables the use of methods like GEP \cite{Yu2021DoLearning} 
 \subsection{Federated GEP}
