@@ -83,6 +83,30 @@
 }
 
 \chapter{Introduction}
+\section{Bridging Privacy and Accuracy Of Machine Learning Models Based On Private Data}
+
+In the age of mobile and wearable technology, our daily interactions with digital devices generate a lot of data. It's not just the information regarding our whereabouts and activities, as known by our smartphones; it's our internal metrics, such as heartbeat and blood pressure, that can unveil our sentiments and thoughts about objects, people, and ideas—sometimes even more comprehensively than our own self-awareness.  We willingly disclose this information with the aim of harnessing the advantages offered by applications such as navigation, calendars, health monitoring, and even gaming consoles. However, this wealth of personal information comes at a cost—privacy. The dilemma arises: how can we glean valuable insights from our personal data without compromising the privacy of individuals?
+
+\section{Anonymization $\neq$ Privacy }
+
+On the surface, anonymizing and concealing individual data might seem like a panacea for privacy concerns. However, as we've learned from past endeavors, the mere act of hiding raw data does not guarantee the safeguarding of personal information. An  adversary  who  knows  only  a little  bit  about  an  individual  subscriber  can  easily identify  this subscriber’s record in the dataset. Using  the  Internet  Movie  Database as the  source of background knowledge, the Netflix records of known users may be successfully identified , uncovering their apparent political preferences and other potentially sensitive information. The Netflix Prize saga and other incidents have unveiled the susceptibility of supposedly anonymized datasets to re-identification, emphasizing the urgent need for a more robust approach to privacy preservation.
+
+\section{Federated Learning - Data Stays On Device}
+
+In order to balance between collaborative model training and the need to keep personal data safe, Federated Learning was presented . By allowing devices to train machine learning models locally and sharing only aggregated insights, federated learning minimizes the need to transmit raw, identifiable data to a central server. 
+Is this Privacy? Not yet. It is just anonymization. Furthermore, querying the trained model may still reveal private details from the dataset the model was trained on.
+
+\section{Differential Privacy}
+
+The lesson learned from the Netflix prize saga is that in order to ensure privacy we have to prove it. This is exactly the promise of Differential Privacy. A mathematical definition of what needed to be done during model training to keep all participants' data secured  with a given requested probability (Privacy Budget).
+
+Yet, the utopia of privacy is not without its trade-offs. While we've erected a fortress around personal data, the accuracy of our machine learning models has suffered. this trade-off presents the challenge. How do we ensure accurate predictions while upholding the privacy promises made possible by federated learning and differential privacy?
+
+\section{Our Contribution and EMG Gesture Recognition}
+To address the privacy-accuracy challenge, we leverage users who have consented to making their data public. We demonstrate that the learning patterns observed in these public users serve as a robust mathematical representation of the broader population. Subsequently, we implement established differential privacy methods for federated learning, employing insights gained from these public users.
+In this work, We apply our methodology in the context of gesture recognition utilizing EMG data. Gathering information from select users whom we regard as public contributors, we illustrate that through the integration of their data with conventional differential privacy and federated learning approaches, the gestures of new users can be identified without compromising their privacy.
+
+\chapter{Theoretical Background}
 \section{EMG}
 The rapid growth of wearable technology and the increasing availability of electromyography (\textbf{EMG}) wrist devices have opened up new possibilities for monitoring and analyzing human movements. \\
 
